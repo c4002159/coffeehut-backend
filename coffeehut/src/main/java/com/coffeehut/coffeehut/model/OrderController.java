@@ -1,4 +1,4 @@
-package com.coffeehut.coffeehut.two;
+package com.coffeehut.coffeehut.model;
 
 import com.coffeehut.coffeehut.model.Order;
 import com.coffeehut.coffeehut.repository.OrderRepository;
