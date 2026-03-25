@@ -7,11 +7,11 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    // 根据姓名查询订单
+
 
     List<Order> findByCustomerName(String customerName);
 
-    // 查询未归档订单
+
     List<Order> findByIsArchivedFalse();
     List<Order> findByIsArchivedTrue();
 }
