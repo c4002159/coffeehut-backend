@@ -19,51 +19,55 @@ public class OrderService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
-    // 🔥 生成5位订单号（00001开始）
-    public String generateOrderNumber() {
-        long count = orderRepository.count() + 1;
-        return String.format("%05d", count);
-    }
-
-    // 🔥 创建订单（用于reorder）
-    public Order createOrder(Order order, List<OrderItem> items) {
-
-        // 1. 设置订单号
-        order.setOrderNumber(generateOrderNumber());
-
-        // 2. 设置时间
-        LocalDateTime now = LocalDateTime.now();
-        order.setCreatedAt(now);
-
-        // 取餐时间 = 当前 +10分钟
-        if (order.getPickupTime() == null) {
-            order.setPickupTime(now.plusMinutes(10));
-        }
-
-        // 默认状态
-        order.setStatus("pending");
-
-        // 3. 保存订单
-        Order savedOrder = orderRepository.save(order);
-
-        // 4. 保存订单项
-        for (OrderItem item : items) {
-            item.setOrderId(savedOrder.getId());
-            orderItemRepository.save(item);
-        }
-
-        return savedOrder;
-    }
-
+    // 获取单个订单
     public Order getOrderById(Long id) {
         return orderRepository.findById(id).orElse(null);
     }
 
+    // 按客户名查订单列表
     public List<Order> getOrdersByCustomer(String name) {
         return orderRepository.findByCustomerName(name);
     }
 
+    // 获取订单商品
     public List<OrderItem> getOrderItems(Long orderId) {
         return orderItemRepository.findByOrderId(orderId);
+    }
+
+    // Reorder — 复制一个历史订单重新下单
+    public Order createReorder(ReorderRequest request) {
+        // 1. 创建新订单，复制客户信息
+        Order newOrder = new Order();
+        newOrder.setCustomerName(request.getCustomerName());
+        newOrder.setCustomerPhone(request.getCustomerPhone());
+        newOrder.setTotalPrice(request.getTotalPrice());
+        newOrder.setStatus("pending");
+        newOrder.setIsArchived(false);
+        newOrder.setCreatedAt(LocalDateTime.now());
+
+        // 2. 取餐时间：用请求里传来的，没有就默认 +10分钟
+        if (request.getPickupTime() != null) {
+            newOrder.setPickupTime(request.getPickupTime());
+        } else {
+            newOrder.setPickupTime(LocalDateTime.now().plusMinutes(10));
+        }
+
+        // 3. 保存订单
+        Order saved = orderRepository.save(newOrder);
+
+        // 4. 保存订单商品
+        if (request.getItems() != null) {
+            for (OrderItem item : request.getItems()) {
+                OrderItem newItem = new OrderItem();
+                newItem.setOrderId(saved.getId());
+                newItem.setItemId(item.getItemId());
+                newItem.setSize(item.getSize());
+                newItem.setQuantity(item.getQuantity());
+                newItem.setSubtotal(item.getSubtotal());
+                orderItemRepository.save(newItem);
+            }
+        }
+
+        return saved;
     }
 }
