@@ -1,28 +1,31 @@
 package com.coffeehut.coffeehut.two;
 
-import com.coffeehut.coffeehut.model.Order;
 import com.coffeehut.coffeehut.model.OrderItem;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReorderRequest {
 
-    private Order order;
+    private String customerName;
+    private String customerPhone;
+    private LocalDateTime pickupTime;
+    private Double totalPrice;
     private List<OrderItem> items;
 
-    public Order getOrder() {
-        return order;
-    }
+    // Getters & Setters
+    public String getCustomerName() { return customerName; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+    public String getCustomerPhone() { return customerPhone; }
+    public void setCustomerPhone(String customerPhone) { this.customerPhone = customerPhone; }
 
-    public List<OrderItem> getItems() {
-        return items;
-    }
+    public LocalDateTime getPickupTime() { return pickupTime; }
+    public void setPickupTime(LocalDateTime pickupTime) { this.pickupTime = pickupTime; }
 
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
+    public Double getTotalPrice() { return totalPrice; }
+    public void setTotalPrice(Double totalPrice) { this.totalPrice = totalPrice; }
+
+    public List<OrderItem> getItems() { return items; }
+    public void setItems(List<OrderItem> items) { this.items = items; }
 }
