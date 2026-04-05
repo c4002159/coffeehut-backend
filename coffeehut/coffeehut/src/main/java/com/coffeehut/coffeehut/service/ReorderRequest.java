@@ -1,4 +1,4 @@
-package com.coffeehut.coffeehut.two;
+package com.coffeehut.coffeehut.service;
 
 import com.coffeehut.coffeehut.model.OrderItem;
 

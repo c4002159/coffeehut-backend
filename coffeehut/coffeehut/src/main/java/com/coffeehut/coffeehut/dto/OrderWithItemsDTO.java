@@ -14,5 +14,6 @@ public class OrderWithItemsDTO {
         private String name;
         private Integer quantity;
         private String size;
+        private String customizations;   // 新增
     }
 }

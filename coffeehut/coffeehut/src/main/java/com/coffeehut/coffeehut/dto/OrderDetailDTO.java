@@ -1,7 +1,6 @@
 package com.coffeehut.coffeehut.dto;
 
 import com.coffeehut.coffeehut.model.Order;
-import com.coffeehut.coffeehut.model.OrderItem;
 import lombok.Data;
 import java.util.List;
 
@@ -15,10 +14,10 @@ public class OrderDetailDTO {
         private Long id;
         private Long orderId;
         private Long itemId;
-        private String name;   // 商品名称
+        private String name;
         private String size;
         private Integer quantity;
         private Double subtotal;
-        // 可根据需要添加 customizations 等
+        private String customizations;   // 新增
     }
 }

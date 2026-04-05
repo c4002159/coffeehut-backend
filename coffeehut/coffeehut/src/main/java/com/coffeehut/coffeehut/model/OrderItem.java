@@ -15,4 +15,8 @@ public class OrderItem {
     private String size;
     private Integer quantity;
     private Double subtotal;
+
+    // 新增定制项字段（存储为逗号分隔字符串）
+    @Column(columnDefinition = "TEXT")
+    private String customizations;
 }

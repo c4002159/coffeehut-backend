@@ -1,4 +1,4 @@
-package com.coffeehut.coffeehut.twoZhouzheng;
+package com.coffeehut.coffeehut.service;
 
 import com.coffeehut.coffeehut.dto.OrderDetailDTO;
 import com.coffeehut.coffeehut.dto.OrderWithItemsDTO;
@@ -8,6 +8,7 @@ import com.coffeehut.coffeehut.model.OrderItem;
 import com.coffeehut.coffeehut.repository.ItemRepository;
 import com.coffeehut.coffeehut.repository.OrderItemRepository;
 import com.coffeehut.coffeehut.repository.OrderRepository;
+import com.coffeehut.coffeehut.service.ReorderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -26,7 +27,7 @@ public class OrderService {
     @Autowired
     private ItemRepository itemRepository;
 
-    // ==================== 原有方法（保留） ====================
+    // ========== 原有方法 ==========
     public Order getOrderById(Long id) {
         return orderRepository.findById(id).orElse(null);
     }
@@ -61,16 +62,14 @@ public class OrderService {
                 newItem.setSize(item.getSize());
                 newItem.setQuantity(item.getQuantity());
                 newItem.setSubtotal(item.getSubtotal());
+                newItem.setCustomizations(item.getCustomizations());
                 orderItemRepository.save(newItem);
             }
         }
         return saved;
     }
 
-    // ==================== 新增员工端方法 ====================
-    /**
-     * 获取所有活跃订单（未归档），并附带每个订单的商品摘要（名称、数量、规格）
-     */
+    // ========== 员工端方法 ==========
     public List<OrderWithItemsDTO> getActiveOrdersWithItems() {
         List<Order> activeOrders = orderRepository.findByIsArchivedFalse();
         return activeOrders.stream().map(order -> {
@@ -85,6 +84,7 @@ public class OrderService {
                 summary.setName(itemName);
                 summary.setQuantity(item.getQuantity());
                 summary.setSize(item.getSize());
+                summary.setCustomizations(item.getCustomizations());
                 return summary;
             }).collect(Collectors.toList());
             dto.setItems(summaries);
@@ -92,9 +92,6 @@ public class OrderService {
         }).collect(Collectors.toList());
     }
 
-    /**
-     * 更新订单状态，若状态变为 collected 则自动归档
-     */
     public Order updateOrderStatus(Long id, String status) {
         Order order = orderRepository.findById(id).orElse(null);
         if (order != null) {
@@ -107,9 +104,6 @@ public class OrderService {
         return null;
     }
 
-    /**
-     * 获取订单详情（包含完整的商品列表及商品名称）
-     */
     public OrderDetailDTO getOrderDetail(Long id) {
         Order order = orderRepository.findById(id).orElse(null);
         if (order == null) return null;
@@ -122,6 +116,7 @@ public class OrderService {
             dtoItem.setSize(item.getSize());
             dtoItem.setQuantity(item.getQuantity());
             dtoItem.setSubtotal(item.getSubtotal());
+            dtoItem.setCustomizations(item.getCustomizations());
             String itemName = itemRepository.findById(item.getItemId())
                     .map(Item::getName)
                     .orElse("Unknown");
@@ -134,9 +129,6 @@ public class OrderService {
         return dto;
     }
 
-    /**
-     * 获取归档订单，按 TODAY / YESTERDAY / LAST_7_DAYS 分组
-     */
     public Map<String, List<Order>> getArchivedOrdersGrouped() {
         List<Order> archived = orderRepository.findByIsArchivedTrueOrderByCreatedAtDesc();
         LocalDateTime now = LocalDateTime.now();
@@ -157,13 +149,30 @@ public class OrderService {
         return result;
     }
 
-    /**
-     * 搜索归档订单（按订单号或客户名）
-     */
     public List<Order> searchArchivedOrders(String keyword) {
         return orderRepository.findByIsArchivedTrue().stream()
                 .filter(o -> o.getOrderNumber().toLowerCase().contains(keyword.toLowerCase())
                         || o.getCustomerName().toLowerCase().contains(keyword.toLowerCase()))
                 .collect(Collectors.toList());
+    }
+
+    // ========== 新增方法 ==========
+    public Order cancelOrder(Long id) {
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order != null && ("new".equals(order.getStatus()) || "preparing".equals(order.getStatus()))) {
+            order.setStatus("cancelled");
+            order.setIsArchived(true);
+            return orderRepository.save(order);
+        }
+        return null;
+    }
+
+    public Order addNote(Long id, String note) {
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order != null) {
+            order.setNotes(note);
+            return orderRepository.save(order);
+        }
+        return null;
     }
 }

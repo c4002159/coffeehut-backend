@@ -1,8 +1,10 @@
 package com.coffeehut.coffeehut.controller;
-import com.coffeehut.coffeehut.service.OrderService;
+
+import com.coffeehut.coffeehut.dto.NoteRequest;
 import com.coffeehut.coffeehut.dto.OrderDetailDTO;
 import com.coffeehut.coffeehut.dto.OrderWithItemsDTO;
 import com.coffeehut.coffeehut.model.Order;
+import com.coffeehut.coffeehut.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +44,21 @@ public class StaffOrderController {
     @GetMapping("/archived/search")
     public List<Order> searchArchivedOrders(@RequestParam String keyword) {
         return orderService.searchArchivedOrders(keyword);
+    }
+
+    // 新增端点
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<?> cancelOrder(@PathVariable Long id) {
+        Order cancelled = orderService.cancelOrder(id);
+        if (cancelled != null) {
+            return ResponseEntity.ok(cancelled);
+        }
+        return ResponseEntity.badRequest().body(Map.of("error", "Order cannot be cancelled"));
+    }
+
+    @PatchMapping("/{id}/note")
+    public ResponseEntity<Order> addNote(@PathVariable Long id, @RequestBody NoteRequest noteRequest) {
+        Order updated = orderService.addNote(id, noteRequest.getNote());
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
     }
 }
