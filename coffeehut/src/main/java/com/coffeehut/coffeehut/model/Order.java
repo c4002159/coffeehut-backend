@@ -17,6 +17,9 @@ public class Order {
 
     private String customerPhone;
 
+     @Column(unique = true)
+    private String orderNumber;
+
     private LocalDateTime pickupTime;
 
     private Double totalPrice;
