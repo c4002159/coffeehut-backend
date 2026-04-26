@@ -45,7 +45,7 @@ public class PaymentService {
             if (!"pending".equalsIgnoreCase(order.getStatus())) {
                 throw new ResponseStatusException(BAD_REQUEST, "Order is not payable");
             }
-            if (!amountsEqual(order.getTotalPrice(), request.getTransactionAmount())) {
+            if (order.getTotalPrice() != null && !amountsEqual(order.getTotalPrice(), request.getTransactionAmount())) {
                 throw new ResponseStatusException(BAD_REQUEST, "Amount does not match order total");
             }
         }
@@ -79,10 +79,10 @@ public class PaymentService {
         if (request.getOrderId() != null) {
             Order order = orderRepository.findById(request.getOrderId())
                     .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Order not found"));
-            if (!"paid".equalsIgnoreCase(order.getStatus())) {
+            if (!"paid".equalsIgnoreCase(order.getStatus()) && !"cancelled".equalsIgnoreCase(order.getStatus())) {
                 throw new ResponseStatusException(BAD_REQUEST, "Order is not refundable");
             }
-            if (!amountsEqual(order.getTotalPrice(), request.getTransactionAmount())) {
+            if (order.getTotalPrice() != null && !amountsEqual(order.getTotalPrice(), request.getTransactionAmount())) {
                 throw new ResponseStatusException(BAD_REQUEST, "Amount does not match order total");
             }
         }
