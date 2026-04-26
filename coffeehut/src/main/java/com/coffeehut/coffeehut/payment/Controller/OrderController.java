@@ -8,9 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -34,6 +37,15 @@ public class OrderController {
         order.setPickupTime(pickup);
         order.setTotalPrice(request.getTotalPrice());
         order.setStatus("pending");
+
+        // Generate order number: CH-YYYYMMDD-001 (increments per day)
+        String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        LocalDateTime dayStart = LocalDate.now().atStartOfDay();
+        LocalDateTime dayEnd = dayStart.plusDays(1);
+        long todayCount = orderRepository.countOrdersCreatedBetween(dayStart, dayEnd);
+        String orderNumber = String.format("CH-%s-%03d", dateStr, todayCount + 1);
+        order.setOrderNumber(orderNumber);
+
         order = orderRepository.save(order);
 
         for (OrderItemDto item : request.getItems()) {
@@ -47,6 +59,44 @@ public class OrderController {
         }
 
         return ResponseEntity.ok(Map.of("id", order.getId(), "orderId", order.getId()));
+    }
+
+    // GET /api/orders/{id}
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
+        Optional<Order> order = orderRepository.findById(id);
+        return order.map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+    }
+
+    // GET /api/orders/{id}/items
+    @GetMapping("/{id}/items")
+    public ResponseEntity<List<OrderItem>> getOrderItems(@PathVariable Long id) {
+        List<OrderItem> items = orderItemRepository.findByOrderId(id);
+        return ResponseEntity.ok(items);
+    }
+
+    // GET /api/orders/customer?name=xxx
+    @GetMapping("/customer")
+    public ResponseEntity<List<Order>> getOrdersByCustomer(@RequestParam String name) {
+        List<Order> orders = orderRepository.findByCustomerName(name);
+        return ResponseEntity.ok(orders);
+    }
+
+    // POST /api/staff/orders/{id}/cancel
+    @PostMapping("/staff/{id}/cancel")
+    public ResponseEntity<Map<String, Object>> cancelOrder(@PathVariable Long id) {
+        Optional<Order> optional = orderRepository.findById(id);
+        if (optional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Order order = optional.get();
+        if (order.getStatus().equals("collected") || order.getStatus().equals("cancelled")) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Order cannot be cancelled"));
+        }
+        order.setStatus("cancelled");
+        orderRepository.save(order);
+        return ResponseEntity.ok(Map.of("id", order.getId(), "status", "cancelled"));
     }
 
     @lombok.Data
