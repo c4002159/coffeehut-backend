@@ -2,6 +2,9 @@ package com.coffeehut.coffeehut.payment.Controller;
 
 import com.coffeehut.coffeehut.model.Order;
 import com.coffeehut.coffeehut.model.OrderItem;
+import com.coffeehut.coffeehut.payment.Service.PaymentService;
+import com.coffeehut.coffeehut.payment.dto.HorsePayResponse;
+import com.coffeehut.coffeehut.payment.dto.PaymentRefundRequest;
 import com.coffeehut.coffeehut.repository.OrderItemRepository;
 import com.coffeehut.coffeehut.repository.OrderRepository;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,9 @@ public class OrderController {
 
     @Resource
     private OrderItemRepository orderItemRepository;
+
+    @Resource
+    private PaymentService paymentService;
 
     @PostMapping
     public ResponseEntity<Map<String, Object>> createOrder(@RequestBody CreateOrderRequest request) {
@@ -97,6 +103,33 @@ public class OrderController {
         order.setStatus("cancelled");
         orderRepository.save(order);
         return ResponseEntity.ok(Map.of("id", order.getId(), "status", "cancelled"));
+    }
+
+    // POST /api/orders/staff/{id}/refund
+    @PostMapping("/staff/{id}/refund")
+    public ResponseEntity<Map<String, Object>> refundOrder(@PathVariable Long id) {
+        Optional<Order> optional = orderRepository.findById(id);
+        if (optional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Order order = optional.get();
+        PaymentRefundRequest request = new PaymentRefundRequest();
+        request.setOrderId(order.getId());
+        request.setCustomerID(order.getCustomerPhone());
+        request.setTransactionAmount(order.getTotalPrice());
+
+        HorsePayResponse response = paymentService.processRefund(request);
+        return ResponseEntity.ok(Map.of(
+                "id", order.getId(),
+                "status", Optional.ofNullable(orderRepository.findById(id).orElse(order).getStatus()).orElse("unknown"),
+                "paymentSuccess", response != null && response.getPaymentSuccess() != null
+                        ? response.getPaymentSuccess().getStatus()
+                        : null,
+                "reason", response != null && response.getPaymentSuccess() != null
+                        ? response.getPaymentSuccess().getReason()
+                        : null
+        ));
     }
 
     @lombok.Data
