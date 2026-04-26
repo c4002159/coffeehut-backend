@@ -32,7 +32,7 @@ public class PaymentService {
     @Resource
     private OrderRepository orderRepository;
 
-    @Value("${horsepay.api.url:http://homepages.cs.ncl.ac.uk/daniel.nesbitt/CSC8019/HorsePay/api/pay}")
+    @Value("${horsepay.api.url:http://homepages.cs.ncl.ac.uk/daniel.nesbitt/CSC8019/HorsePay/HorsePay.php}")
     private String horsePayApiUrl;
 
     @Value("${horsepay.api.refund-url:http://homepages.cs.ncl.ac.uk/daniel.nesbitt/CSC8019/HorsePay/api/refund}")
