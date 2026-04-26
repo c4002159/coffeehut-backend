@@ -90,8 +90,9 @@ public class OrderService {
             List<OrderItem> items = orderItemRepository.findByOrderId(order.getId());
             List<OrderWithItemsDTO.OrderItemSummary> summaries = items.stream().map(item -> {
                 OrderWithItemsDTO.OrderItemSummary summary = new OrderWithItemsDTO.OrderItemSummary();
-                String itemName = itemRepository.findById(item.getItemId())
-                        .map(Item::getName).orElse("Unknown");
+                String itemName = item.getItemId() != null 
+                        ? itemRepository.findById(item.getItemId()).map(Item::getName).orElse("Unknown")
+                        : "Unknown";
                 summary.setName(itemName);
                 summary.setQuantity(item.getQuantity());
                 summary.setSize(item.getSize());
