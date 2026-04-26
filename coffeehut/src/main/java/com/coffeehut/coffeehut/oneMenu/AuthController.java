@@ -1,3 +1,5 @@
+// AuthController.java — Authentication endpoints -WeiqiWang
+
 package com.coffeehut.coffeehut.oneMenu;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,10 @@ public class AuthController {
         return authService.login(body.get("email"), body.get("password"));
     }
 
+    // Registration is intentionally disabled. -WeiqiWang
+    // Staff accounts are managed directly in the database via CoffeehutApplication seed data.
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
-        return authService.register(body.get("name"), body.get("email"), body.get("password"));
+    public ResponseEntity<?> register() {
+        return ResponseEntity.status(403).body(Map.of("error", "Registration is not allowed"));
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-251.29188.11">
-    <data-source name="coffee_hut@coffeehut.c5c4guwiid9k.eu-west-2.rds.amazonaws.com" uuid="5a5385ad-7eea-45e3-a008-a218e8b9ad4d">
-      <database-info product="MySQL" version="8.4.7" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-j-8.2.0 (Revision: 06a1f724497fd81c6a659131fda822c9e5085b6c)" dbms="MYSQL" exact-version="8.4.7" exact-driver-version="8.2">
-        <extra-name-characters>#@</extra-name-characters>
+  <component name="dataSourceStorageLocal" created-in="IU-252.26199.169">
+    <data-source name="coffee_hut@coffeehut.c5c4guwiid9k.eu-west-2.rds.amazonaws.com" uuid="5bb8fc02-57ff-4388-b081-9483d032ceef">
+      <database-info product="MySQL" version="8.4.7" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-j-9.5.0 (Revision: a7b3c94f50efbddb9f0dd69b3e0d1aaa25305cd6)" dbms="MYSQL" exact-version="8.4.7" exact-driver-version="9.5">
+        <extra-name-characters>$</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
@@ -13,7 +13,6 @@
           <node kind="schema" qname="@" />
         </introspection-scope>
       </schema-mapping>
-      <load-sources>user_and_system_sources</load-sources>
     </data-source>
   </component>
 </project>
