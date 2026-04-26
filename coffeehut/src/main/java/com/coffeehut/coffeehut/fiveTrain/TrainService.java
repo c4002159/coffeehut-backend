@@ -11,7 +11,7 @@ public class TrainService {
 
     private List<Map<String, String>> cachedTrains = new ArrayList<>();
     private long lastFetchTime = 0;
-    private static final long CACHE_DURATION = 60 * 1000; // 60秒缓存
+    private static final long CACHE_DURATION = 60 * 1000;
 
     public List<Map<String, String>> getTrains(String station) {
         long now = System.currentTimeMillis();
@@ -19,8 +19,6 @@ public class TrainService {
             return cachedTrains;
         }
 
-        // 调用真实 Network Rail API（需要注册获取 token）
-        // 目前先返回模拟数据，方便开发测试
         cachedTrains = getMockTrains(station);
         lastFetchTime = now;
         return cachedTrains;
