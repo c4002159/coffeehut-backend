@@ -1,7 +1,7 @@
 package com.coffeehut.coffeehut.sixZhangkaichen;
 
 import jakarta.persistence.*;
-@Entity
+@Entity(name = "LoyaltyMember")
 @Table(name = "members")
 public class Member {
     @Id
