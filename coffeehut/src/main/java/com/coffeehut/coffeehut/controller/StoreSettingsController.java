@@ -26,6 +26,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,8 +57,8 @@ public class StoreSettingsController {
 
     // ── Store open/closed status ────────────────────────────────────────────
 
-    // PUBLIC — customer client calls this to decide whether to allow ordering. -WeiqiWang
-    // Returns { "isOpen": true/false }
+    // PUBLIC — customer client calls this to decide whether to allow ordering
+    // and what today's opening-hours label should say. -WeiqiWang
     // Logic priority:
     //   1. If staff manually marked closed → closed
     //   2. If today matches a holiday exception that is "Closed All Day" → closed
@@ -65,16 +66,18 @@ public class StoreSettingsController {
     //   4. Otherwise use the weekly schedule for today's day of week
     @GetMapping("/api/store/status")
     public ResponseEntity<Map<String, Object>> getStoreStatus() {
+        LocalDate today = LocalDate.now();
+        LocalTime now   = LocalTime.now();
+        String dayName  = toDayName(today.getDayOfWeek());
+
         // Factor 1: manual override -WeiqiWang
         boolean tempClosed = storeSettingsRepository.findById(1L)
                 .map(s -> Boolean.TRUE.equals(s.getIsTemporarilyClosed()))
                 .orElse(false);
         if (tempClosed) {
-            return ResponseEntity.ok(Map.of("isOpen", false, "reason", "temporarily_closed"));
+            return ResponseEntity.ok(buildStatus(false, "temporarily_closed",
+                    "Temporarily Closed", null, null, true));
         }
-
-        String todayStr = LocalDate.now().toString(); // "2026-04-27"
-        LocalTime now   = LocalTime.now();
 
         // Factor 2 & 3: holiday exceptions -WeiqiWang
         List<ScheduleHoliday> holidays = holidayRepository.findAll();
@@ -82,15 +85,18 @@ public class StoreSettingsController {
             if (h.getStartDate() == null || h.getEndDate() == null) continue;
             LocalDate start = LocalDate.parse(h.getStartDate());
             LocalDate end   = LocalDate.parse(h.getEndDate());
-            LocalDate today = LocalDate.now();
             if (!today.isBefore(start) && !today.isAfter(end)) {
                 // Today is within this holiday range
                 if (Boolean.TRUE.equals(h.getIsClosed())) {
-                    return ResponseEntity.ok(Map.of("isOpen", false, "reason", "holiday"));
+                    return ResponseEntity.ok(buildStatus(false, "holiday",
+                            "Closed Today" + formatHolidaySuffix(h.getName(), dayName),
+                            null, null, true));
                 }
                 // Holiday with custom hours
                 boolean open = isWithinTimeRange(h.getOpenTime(), h.getCloseTime(), now);
-                return ResponseEntity.ok(Map.of("isOpen", open, "reason", "holiday_custom_hours"));
+                return ResponseEntity.ok(buildStatus(open, "holiday_custom_hours",
+                        formatOpenLabel(h.getOpenTime(), h.getCloseTime()),
+                        h.getOpenTime(), h.getCloseTime(), false));
             }
         }
 
@@ -101,15 +107,18 @@ public class StoreSettingsController {
         for (ScheduleHours h : hoursList) {
             if (matchesDayLabel(h.getDayLabel(), dow)) {
                 if (Boolean.TRUE.equals(h.getIsClosed())) {
-                    return ResponseEntity.ok(Map.of("isOpen", false, "reason", "weekly_closed"));
+                    return ResponseEntity.ok(buildStatus(false, "weekly_closed",
+                            "Closed Today (" + dayName + ")", null, null, true));
                 }
                 boolean open = isWithinTimeRange(h.getOpenTime(), h.getCloseTime(), now);
-                return ResponseEntity.ok(Map.of("isOpen", open, "reason", "weekly_hours"));
+                return ResponseEntity.ok(buildStatus(open, "weekly_hours",
+                        formatOpenLabel(h.getOpenTime(), h.getCloseTime()),
+                        h.getOpenTime(), h.getCloseTime(), false));
             }
         }
 
         // No schedule configured → default open -WeiqiWang
-        return ResponseEntity.ok(Map.of("isOpen", true, "reason", "no_schedule"));
+        return ResponseEntity.ok(buildStatus(true, "no_schedule", "Open Today", null, null, false));
     }
 
     // STAFF ONLY — toggle temporary close flag -WeiqiWang
@@ -157,5 +166,39 @@ public class StoreSettingsController {
         if (l.contains("saturday")) return dow == DayOfWeek.SATURDAY;
         if (l.contains("sunday"))   return dow == DayOfWeek.SUNDAY;
         return false;
+    }
+
+    private Map<String, Object> buildStatus(boolean isOpen, String reason, String todayHoursLabel,
+                                            String openTime, String closeTime, boolean isClosedToday) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("isOpen", isOpen);
+        body.put("reason", reason);
+        body.put("todayHoursLabel", todayHoursLabel);
+        body.put("openTime", openTime);
+        body.put("closeTime", closeTime);
+        body.put("isClosedToday", isClosedToday);
+        return body;
+    }
+
+    private String formatOpenLabel(String openTime, String closeTime) {
+        if (openTime == null || closeTime == null) return "Open Today";
+        return "Open Today " + openTime + " - " + closeTime;
+    }
+
+    private String formatHolidaySuffix(String holidayName, String dayName) {
+        if (holidayName == null || holidayName.isBlank()) return " (" + dayName + ")";
+        return " (" + holidayName + ")";
+    }
+
+    private String toDayName(DayOfWeek dow) {
+        return switch (dow) {
+            case MONDAY -> "Monday";
+            case TUESDAY -> "Tuesday";
+            case WEDNESDAY -> "Wednesday";
+            case THURSDAY -> "Thursday";
+            case FRIDAY -> "Friday";
+            case SATURDAY -> "Saturday";
+            case SUNDAY -> "Sunday";
+        };
     }
 }
