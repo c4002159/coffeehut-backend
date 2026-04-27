@@ -4,7 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cccb06e4-ae0d-410e-b1c1-9efa2b96427e" name="更改" comment="" />
+    <list default="true" id="cccb06e4-ae0d-410e-b1c1-9efa2b96427e" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5a5385ad-7eea-45e3-a008-a218e8b9ad4d.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5a5385ad-7eea-45e3-a008-a218e8b9ad4d/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5a5385ad-7eea-45e3-a008-a218e8b9ad4d/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5a5385ad-7eea-45e3-a008-a218e8b9ad4d/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5a5385ad-7eea-45e3-a008-a218e8b9ad4d/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/CoffeehutApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/CoffeehutApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/oneMenu/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/oneMenu/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/oneMenu/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/oneMenu/MenuService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/Controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/Controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/OrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/CoffeehutApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/CoffeehutApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderDetailDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderDetailDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderWithItemsDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderWithItemsDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Order.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/oneMenu/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/oneMenu/AuthService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/service/OrderService.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,15 +44,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "IsWeiQi"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;IsWeiQi&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
-    "url": "https://github.com/c4002159/coffeehut-backend",
+    "url": "https://github.com/c4002159/coffeehut-backend.git",
     "accountId": "b0fde3b6-c0b0-4024-9035-cf17c9afb054"
   }
 }]]></component>
@@ -44,40 +68,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "Spring Boot.CoffeehutApplication.executor": "Run",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "G:/JAVA code/coffeehut-backend-master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "vcs.Subversion.SSH",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Spring Boot.CoffeehutApplication.executor&quot;: &quot;Run&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/JAVA code/coffeehut-backend-master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Subversion.SSH&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql_aurora"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql_aurora&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -106,11 +130,23 @@
       <workItem from="1777194067058" duration="5064000" />
       <workItem from="1777217863019" duration="2198000" />
       <workItem from="1777220120780" duration="1062000" />
+      <workItem from="1777247149575" duration="15352000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>

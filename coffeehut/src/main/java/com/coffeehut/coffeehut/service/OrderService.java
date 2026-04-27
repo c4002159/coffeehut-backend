@@ -90,9 +90,9 @@ public class OrderService {
             List<OrderItem> items = orderItemRepository.findByOrderId(order.getId());
             List<OrderWithItemsDTO.OrderItemSummary> summaries = items.stream().map(item -> {
                 OrderWithItemsDTO.OrderItemSummary summary = new OrderWithItemsDTO.OrderItemSummary();
-                String itemName = item.getItemId() != null 
+                String itemName = item.getItemId() != null
                         ? itemRepository.findById(item.getItemId()).map(Item::getName).orElse("Unknown")
-                        : "Unknown";
+                        : "Unknown"; // guard against null itemId -WeiqiWang
                 summary.setName(itemName);
                 summary.setQuantity(item.getQuantity());
                 summary.setSize(item.getSize());
@@ -161,8 +161,9 @@ public class OrderService {
             dtoItem.setQuantity(item.getQuantity());
             dtoItem.setSubtotal(item.getSubtotal());
             dtoItem.setCustomizations(item.getCustomizations());
-            String itemName = itemRepository.findById(item.getItemId())
-                    .map(Item::getName).orElse("Unknown");
+            String itemName = item.getItemId() != null
+                    ? itemRepository.findById(item.getItemId()).map(Item::getName).orElse("Unknown")
+                    : "Unknown"; // guard against null itemId -WeiqiWang
             dtoItem.setName(itemName);
             return dtoItem;
         }).collect(Collectors.toList());

@@ -2,8 +2,12 @@
 
 package com.coffeehut.coffeehut;
 
-import com.coffeehut.coffeehut.model.Member;
-import com.coffeehut.coffeehut.repository.MemberRepository;
+import com.coffeehut.coffeehut.model.ScheduleHours;
+import com.coffeehut.coffeehut.model.StaffAccount;
+import com.coffeehut.coffeehut.model.StoreSettings;
+import com.coffeehut.coffeehut.repository.ScheduleHoursRepository;
+import com.coffeehut.coffeehut.repository.StaffAccountRepository;
+import com.coffeehut.coffeehut.repository.StoreSettingsRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,49 +21,71 @@ import java.util.stream.Collectors;
 @SpringBootApplication
 public class CoffeehutApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CoffeehutApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CoffeehutApplication.class, args);
+    }
 
-	// The authoritative list of staff accounts. -WeiqiWang
-	// On every startup, the database is synced to match this list exactly:
-	//   - Accounts in this list but not in the DB are created.
-	//   - Accounts in the DB but not in this list are deleted.
-	// To add an account: add a row here and restart the backend.
-	// To remove an account: delete the row here and restart the backend.
-	// Format: { "display name", "email", "password" }
-	private static final String[][] STAFF_ACCOUNTS = {
-		{ "StaffUser",  "staff@coffeehut.com", "123456"   },
-		{ "Weiqi Wang", "weiqi@coffeehut.com", "123456"   },
-		{ "Manager",    "admin@coffeehut.com",  "admin123" },
-	};
+    private static final String[][] STAFF_ACCOUNTS = {
+        { "StaffUser",  "staff@coffeehut.com", "123456"   },
+        { "Weiqi Wang", "weiqi@coffeehut.com", "123456"   },
+        { "Manager",    "admin@coffeehut.com",  "admin123" },
+    };
 
-	@Bean
-	public CommandLineRunner initData(MemberRepository memberRepository) {
-		return args -> {
-			Set<String> authorisedEmails = Arrays.stream(STAFF_ACCOUNTS)
-					.map(acc -> acc[1])
-					.collect(Collectors.toSet());
+    @Bean
+    public CommandLineRunner initData(
+            StaffAccountRepository    staffAccountRepository,
+            StoreSettingsRepository   storeSettingsRepository,
+            ScheduleHoursRepository   scheduleHoursRepository) {
 
-			// Remove any DB accounts that are no longer in the list. -WeiqiWang
-			List<Member> allMembers = memberRepository.findAll();
-			for (Member m : allMembers) {
-				if (!authorisedEmails.contains(m.getEmail())) {
-					memberRepository.delete(m);
-				}
-			}
+        return args -> {
 
-			// Create accounts that are in the list but not yet in the DB. -WeiqiWang
-			for (String[] acc : STAFF_ACCOUNTS) {
-				if (memberRepository.findByEmail(acc[1]).isEmpty()) {
-					Member m = new Member();
-					m.setName(acc[0]);
-					m.setEmail(acc[1]);
-					m.setPassword(acc[2]);
-					m.setTotalOrders(0);
-					memberRepository.save(m);
-				}
-			}
-		};
-	}
+            // ── Staff accounts ──────────────────────────────────────────────
+            Set<String> authorisedEmails = Arrays.stream(STAFF_ACCOUNTS)
+                    .map(acc -> acc[1]).collect(Collectors.toSet());
+
+            for (StaffAccount a : staffAccountRepository.findAll()) {
+                if (!authorisedEmails.contains(a.getEmail()))
+                    staffAccountRepository.delete(a);
+            }
+            for (String[] acc : STAFF_ACCOUNTS) {
+                if (staffAccountRepository.findByEmail(acc[1]).isEmpty()) {
+                    StaffAccount a = new StaffAccount();
+                    a.setName(acc[0]); a.setEmail(acc[1]); a.setPassword(acc[2]);
+                    staffAccountRepository.save(a);
+                }
+            }
+
+            // ── Store settings (singleton id = 1) ───────────────────────────
+            if (storeSettingsRepository.findById(1L).isEmpty()) {
+                StoreSettings defaults = new StoreSettings();
+                defaults.setId(1L);
+                defaults.setAutoCancelEnabled(true);
+                defaults.setAutoCancelMins(15);
+                defaults.setAutoCollectEnabled(true);
+                defaults.setAutoCollectMins(15);
+                defaults.setIsTemporarilyClosed(false);
+                storeSettingsRepository.save(defaults);
+            }
+
+            // ── Weekly schedule defaults (only insert if table is empty) ────
+            // Staff can edit these via the Schedule page; we never overwrite. -WeiqiWang
+            if (scheduleHoursRepository.count() == 0) {
+                scheduleHoursRepository.saveAll(List.of(
+                    makeHours(1L, "Monday - Friday", "9:00 AM", "6:00 PM", false),
+                    makeHours(2L, "Saturday",         "10:00 AM","4:00 PM", false),
+                    makeHours(3L, "Sunday",            null,      null,      true)
+                ));
+            }
+        };
+    }
+
+    private ScheduleHours makeHours(Long id, String label, String open, String close, boolean closed) {
+        ScheduleHours h = new ScheduleHours();
+        h.setId(id);
+        h.setDayLabel(label);
+        h.setOpenTime(open);
+        h.setCloseTime(close);
+        h.setIsClosed(closed);
+        return h;
+    }
 }

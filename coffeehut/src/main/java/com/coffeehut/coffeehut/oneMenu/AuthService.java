@@ -1,7 +1,10 @@
+// AuthService.java — Staff authentication, queries staff_accounts table only -WeiqiWang
+// Does NOT touch the members table (used exclusively by the customer loyalty system).
+
 package com.coffeehut.coffeehut.oneMenu;
 
-import com.coffeehut.coffeehut.model.Member;
-import com.coffeehut.coffeehut.repository.MemberRepository;
+import com.coffeehut.coffeehut.model.StaffAccount;
+import com.coffeehut.coffeehut.repository.StaffAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,31 +14,19 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
+    // Queries staff_accounts, never members. -WeiqiWang
     @Autowired
-    private MemberRepository memberRepository;
+    private StaffAccountRepository staffAccountRepository;
 
     public ResponseEntity<?> login(String email, String password) {
-        Optional<Member> member = memberRepository.findByEmail(email);
-        if (member.isEmpty() || !member.get().getPassword().equals(password)) {
+        Optional<StaffAccount> account = staffAccountRepository.findByEmail(email);
+        if (account.isEmpty() || !account.get().getPassword().equals(password)) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid email or password"));
         }
-        Member m = member.get();
+        StaffAccount a = account.get();
         return ResponseEntity.ok(Map.of(
-                "memberId", m.getId(),
-                "name", m.getName(),
-                "totalOrders", m.getTotalOrders()
+                "memberId", a.getId(),
+                "name",     a.getName()
         ));
-    }
-
-    public ResponseEntity<?> register(String name, String email, String password) {
-        if (memberRepository.findByEmail(email).isPresent()) {
-            return ResponseEntity.status(400).body(Map.of("error", "Email already registered"));
-        }
-        Member member = new Member();
-        member.setName(name);
-        member.setEmail(email);
-        member.setPassword(password);
-        memberRepository.save(member);
-        return ResponseEntity.ok(Map.of("message", "Registration successful"));
     }
 }
