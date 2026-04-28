@@ -9,6 +9,9 @@
 //   1. isTemporarilyClosed flag (manual override by staff)
 //   2. Today's day of week vs weekly schedule_hours
 //   3. Today's date vs schedule_holidays
+//
+// Time values are stored in "HH:mm" 24-hour format.
+// Legacy "h:mm AM/PM" values already in DB are also handled gracefully. -WeiqiWang
 
 package com.coffeehut.coffeehut.controller;
 
@@ -57,13 +60,6 @@ public class StoreSettingsController {
 
     // ── Store open/closed status ────────────────────────────────────────────
 
-    // PUBLIC — customer client calls this to decide whether to allow ordering
-    // and what today's opening-hours label should say. -WeiqiWang
-    // Logic priority:
-    //   1. If staff manually marked closed → closed
-    //   2. If today matches a holiday exception that is "Closed All Day" → closed
-    //   3. If today matches a holiday exception with custom hours → use those hours
-    //   4. Otherwise use the weekly schedule for today's day of week
     @GetMapping("/api/store/status")
     public ResponseEntity<Map<String, Object>> getStoreStatus() {
         LocalDate today = LocalDate.now();
@@ -86,13 +82,11 @@ public class StoreSettingsController {
             LocalDate start = LocalDate.parse(h.getStartDate());
             LocalDate end   = LocalDate.parse(h.getEndDate());
             if (!today.isBefore(start) && !today.isAfter(end)) {
-                // Today is within this holiday range
                 if (Boolean.TRUE.equals(h.getIsClosed())) {
                     return ResponseEntity.ok(buildStatus(false, "holiday",
                             "Closed Today" + formatHolidaySuffix(h.getName(), dayName),
                             null, null, true));
                 }
-                // Holiday with custom hours
                 boolean open = isWithinTimeRange(h.getOpenTime(), h.getCloseTime(), now);
                 return ResponseEntity.ok(buildStatus(open, "holiday_custom_hours",
                         formatOpenLabel(h.getOpenTime(), h.getCloseTime()),
@@ -117,11 +111,9 @@ public class StoreSettingsController {
             }
         }
 
-        // No schedule configured → default open -WeiqiWang
         return ResponseEntity.ok(buildStatus(true, "no_schedule", "Open Today", null, null, false));
     }
 
-    // STAFF ONLY — toggle temporary close flag -WeiqiWang
     @PostMapping("/api/staff/store/status")
     public ResponseEntity<Map<String, Boolean>> setStoreStatus(
             @RequestBody Map<String, Boolean> body) {
@@ -142,21 +134,35 @@ public class StoreSettingsController {
 
     // ── Helpers ─────────────────────────────────────────────────────────────
 
-    // Parses "9:00 AM" / "6:00 PM" and checks if `now` falls within [open, close). -WeiqiWang
+    // Parses "HH:mm" (24-hr, new format) or legacy "h:mm AM/PM" (12-hr).
+    // Checks if `now` falls within [open, close). -WeiqiWang
     private boolean isWithinTimeRange(String openStr, String closeStr, LocalTime now) {
         if (openStr == null || closeStr == null) return false;
         try {
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("h:mm a");
-            LocalTime open  = LocalTime.parse(openStr.toUpperCase(),  fmt);
-            LocalTime close = LocalTime.parse(closeStr.toUpperCase(), fmt);
+            LocalTime open  = parseTimeFlexible(openStr);
+            LocalTime close = parseTimeFlexible(closeStr);
+            if (open == null || close == null) return false;
             return !now.isBefore(open) && now.isBefore(close);
         } catch (Exception e) {
             return false;
         }
     }
 
-    // Maps a dayLabel string to a DayOfWeek. -WeiqiWang
-    // "Monday - Friday" matches Mon–Fri; "Saturday" matches Sat; "Sunday" matches Sun.
+    // Parses both "HH:mm" (24-hr) and legacy "h:mm AM/PM" (12-hr). -WeiqiWang
+    private LocalTime parseTimeFlexible(String str) {
+        if (str == null || str.isBlank()) return null;
+        try {
+            // Try 24-hr first ("HH:mm" or "H:mm")
+            return LocalTime.parse(str, DateTimeFormatter.ofPattern("H:mm"));
+        } catch (Exception ignored) { /* fall through */ }
+        try {
+            // Legacy 12-hr fallback ("h:mm AM/PM") -WeiqiWang
+            return LocalTime.parse(str.toUpperCase(), DateTimeFormatter.ofPattern("h:mm a"));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     private boolean matchesDayLabel(String label, DayOfWeek dow) {
         if (label == null) return false;
         String l = label.toLowerCase();
