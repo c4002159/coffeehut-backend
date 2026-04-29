@@ -5,6 +5,8 @@ import com.coffeehut.coffeehut.model.OrderItem;
 import com.coffeehut.coffeehut.payment.Service.PaymentService;
 import com.coffeehut.coffeehut.payment.dto.HorsePayResponse;
 import com.coffeehut.coffeehut.payment.dto.PaymentRefundRequest;
+import com.coffeehut.coffeehut.model.Item;
+import com.coffeehut.coffeehut.repository.ItemRepository;
 import com.coffeehut.coffeehut.repository.OrderItemRepository;
 import com.coffeehut.coffeehut.repository.OrderRepository;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ public class OrderController {
     @Resource private OrderRepository orderRepository;
     @Resource private OrderItemRepository orderItemRepository;
     @Resource private PaymentService paymentService;
+    @Resource private ItemRepository itemRepository;
 
     // Parse pickupTime from frontend — handles both "HH:mm" and "HH:mm:ss" variants. -WeiqiWang
     // Frontend sends "2026-04-27T15:30" (no seconds), so we must not rely on
@@ -80,6 +83,16 @@ public class OrderController {
                     orderItem.setCustomizations(String.join(",", item.getCustomizations()));
                 }
                 orderItemRepository.save(orderItem);
+
+                // Deduct stock after saving order item — only when stock is tracked (not null) -WeiqiWang
+                if (item.getItemId() != null) {
+                    itemRepository.findById(item.getItemId()).ifPresent(menuItem -> {
+                        if (menuItem.getStock() != null && item.getQuantity() != null) {
+                            menuItem.setStock(Math.max(0, menuItem.getStock() - item.getQuantity()));
+                            itemRepository.save(menuItem);
+                        }
+                    });
+                }
             }
         }
 
