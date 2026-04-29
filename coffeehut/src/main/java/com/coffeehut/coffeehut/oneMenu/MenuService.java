@@ -38,12 +38,11 @@ public class MenuService {
         return item;
     }
 
-    // Returns items visible to customers: must be available AND have stock > 0.
-    // If stock is null (legacy rows before stock tracking), treat as in-stock. -WeiqiWang
+    // Returns items visible to customers: must be available (not manually taken offline).
+    // Stock=0 items are still returned so the frontend can show 'Sold Out'. -WeiqiWang
     public List<Item> getAvailableItems() {
         return itemRepository.findAll().stream()
                 .filter(item -> Boolean.TRUE.equals(item.getIsAvailable()))
-                .filter(item -> item.getStock() == null || item.getStock() > 0)
                 .collect(Collectors.toList());
     }
 }
