@@ -13,8 +13,10 @@ package com.coffeehut.coffeehut.controller;
 
 import com.coffeehut.coffeehut.model.ScheduleHoliday;
 import com.coffeehut.coffeehut.model.ScheduleHours;
+import com.coffeehut.coffeehut.model.StoreSettings;
 import com.coffeehut.coffeehut.repository.ScheduleHolidayRepository;
 import com.coffeehut.coffeehut.repository.ScheduleHoursRepository;
+import com.coffeehut.coffeehut.repository.StoreSettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,9 @@ public class ScheduleController {
     @Autowired
     private ScheduleHolidayRepository holidayRepository;
 
+    @Autowired
+    private StoreSettingsRepository storeSettingsRepository;
+
     // ── Weekly Hours ────────────────────────────────────────────────────────
 
     @GetMapping("/hours")
@@ -40,9 +45,12 @@ public class ScheduleController {
     }
 
     // Accepts a list of 3 rows; saves each by id (upsert). -WeiqiWang
+    // Clears manualForceOpen so the updated schedule takes effect immediately. -WeiqiWang
     @PostMapping("/hours")
     public List<ScheduleHours> saveHours(@RequestBody List<ScheduleHours> rows) {
-        return hoursRepository.saveAll(rows);
+        List<ScheduleHours> saved = hoursRepository.saveAll(rows);
+        clearManualForceOpen();
+        return saved;
     }
 
     // ── Holiday Exceptions ──────────────────────────────────────────────────
@@ -55,19 +63,32 @@ public class ScheduleController {
     @PostMapping("/holidays")
     public ScheduleHoliday addHoliday(@RequestBody ScheduleHoliday holiday) {
         holiday.setId(null); // force insert, never overwrite -WeiqiWang
-        return holidayRepository.save(holiday);
+        ScheduleHoliday saved = holidayRepository.save(holiday);
+        clearManualForceOpen();
+        return saved;
     }
 
     @DeleteMapping("/holidays/{id}")
     public ResponseEntity<Void> deleteHoliday(@PathVariable Long id) {
         if (!holidayRepository.existsById(id)) return ResponseEntity.notFound().build();
         holidayRepository.deleteById(id);
+        clearManualForceOpen();
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/holidays")
     public ResponseEntity<Void> clearAllHolidays() {
         holidayRepository.deleteAll();
+        clearManualForceOpen();
         return ResponseEntity.ok().build();
+    }
+
+    // Clears manual overrides so Holiday/Weekly schedule takes effect again. -WeiqiWang
+    private void clearManualForceOpen() {
+        storeSettingsRepository.findById(1L).ifPresent(s -> {
+            s.setManualForceOpen(false);
+            s.setIsTemporarilyClosed(false); // also clear manual close so schedule can take effect -WeiqiWang
+            storeSettingsRepository.save(s);
+        });
     }
 }

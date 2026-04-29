@@ -66,22 +66,27 @@ public class StoreSettingsController {
         LocalTime now   = LocalTime.now();
         String dayName  = toDayName(today.getDayOfWeek());
 
-        // Factor 1: manual override -WeiqiWang
-        boolean tempClosed = storeSettingsRepository.findById(1L)
-                .map(s -> Boolean.TRUE.equals(s.getIsTemporarilyClosed()))
-                .orElse(false);
+        StoreSettings settings = storeSettingsRepository.findById(1L).orElse(null);
+        boolean tempClosed  = settings != null && Boolean.TRUE.equals(settings.getIsTemporarilyClosed());
+        boolean forceOpen   = settings != null && Boolean.TRUE.equals(settings.getManualForceOpen());
+
+        // Factor 1: manual temporarily closed — highest priority -WeiqiWang
         if (tempClosed) {
             return ResponseEntity.ok(buildStatus(false, "temporarily_closed",
                     "Temporarily Closed", null, null, true));
         }
 
-        // Factor 2 & 3: holiday exceptions -WeiqiWang
+        // Factor 2: holiday exceptions — checked before weekly, always higher priority than weekly -WeiqiWang
         List<ScheduleHoliday> holidays = holidayRepository.findAll();
         for (ScheduleHoliday h : holidays) {
             if (h.getStartDate() == null || h.getEndDate() == null) continue;
             LocalDate start = LocalDate.parse(h.getStartDate());
             LocalDate end   = LocalDate.parse(h.getEndDate());
             if (!today.isBefore(start) && !today.isAfter(end)) {
+                // Holiday applies today — forceOpen can override it -WeiqiWang
+                if (forceOpen) {
+                    return ResponseEntity.ok(buildStatus(true, "manual_force_open", "Open Today", null, null, false));
+                }
                 if (Boolean.TRUE.equals(h.getIsClosed())) {
                     return ResponseEntity.ok(buildStatus(false, "holiday",
                             "Closed Today" + formatHolidaySuffix(h.getName(), dayName),
@@ -94,12 +99,14 @@ public class StoreSettingsController {
             }
         }
 
-        // Factor 4: weekly schedule -WeiqiWang
+        // Factor 3: weekly schedule — forceOpen can override it -WeiqiWang
         List<ScheduleHours> hoursList = hoursRepository.findAll();
         DayOfWeek dow = LocalDate.now().getDayOfWeek();
-
         for (ScheduleHours h : hoursList) {
             if (matchesDayLabel(h.getDayLabel(), dow)) {
+                if (forceOpen) {
+                    return ResponseEntity.ok(buildStatus(true, "manual_force_open", "Open Today", null, null, false));
+                }
                 if (Boolean.TRUE.equals(h.getIsClosed())) {
                     return ResponseEntity.ok(buildStatus(false, "weekly_closed",
                             "Closed Today (" + dayName + ")", null, null, true));
@@ -128,6 +135,8 @@ public class StoreSettingsController {
             return s;
         });
         settings.setIsTemporarilyClosed(closed);
+        // Reopen Store button sets forceOpen=true; Temporarily Mark Closed clears it -WeiqiWang
+        settings.setManualForceOpen(!closed);
         storeSettingsRepository.save(settings);
         return ResponseEntity.ok(Map.of("isOpen", !closed));
     }

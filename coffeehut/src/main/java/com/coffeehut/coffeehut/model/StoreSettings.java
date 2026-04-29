@@ -23,4 +23,9 @@ public class StoreSettings {
     // Store open/closed status — set by staff via Schedule page -WeiqiWang
     // false = open (normal), true = temporarily closed by staff
     private Boolean isTemporarilyClosed = false;
+
+    // Manual force-open flag — set when staff clicks Reopen Store button. -WeiqiWang
+    // When true, overrides Holiday and Weekly Schedule closed states.
+    // Cleared when Holiday or Weekly Schedule is saved, so schedule changes take effect again.
+    private Boolean manualForceOpen = false;
 }

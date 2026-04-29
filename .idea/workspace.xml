@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cccb06e4-ae0d-410e-b1c1-9efa2b96427e" name="更改" comment="4/29修改部分">
+    <list default="true" id="cccb06e4-ae0d-410e-b1c1-9efa2b96427e" name="更改" comment="4/29库存细节修改部分">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/Controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/Controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/oneMenu/MenuService.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/oneMenu/MenuService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/service/OrderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/StoreSettingsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/StoreSettingsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/StoreSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/StoreSettings.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +119,7 @@
       <workItem from="1777424942485" duration="1282000" />
       <workItem from="1777470022040" duration="3376000" />
       <workItem from="1777474921926" duration="592000" />
-      <workItem from="1777476099010" duration="3581000" />
+      <workItem from="1777476099010" duration="6872000" />
     </task>
     <task id="LOCAL-00001" summary="4/27员工端部分修改">
       <option name="closed" value="true" />
@@ -154,7 +153,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777428900513</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="4/29库存细节修改部分">
+      <option name="closed" value="true" />
+      <created>1777486623667</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1777486623667</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,6 +187,7 @@
     <MESSAGE value="4/27员工后端部分修改" />
     <MESSAGE value="4/28员工后端修改-一部分" />
     <MESSAGE value="4/29修改部分" />
-    <option name="LAST_COMMIT_MESSAGE" value="4/29修改部分" />
+    <MESSAGE value="4/29库存细节修改部分" />
+    <option name="LAST_COMMIT_MESSAGE" value="4/29库存细节修改部分" />
   </component>
 </project>
