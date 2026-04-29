@@ -4,30 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cccb06e4-ae0d-410e-b1c1-9efa2b96427e" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5a5385ad-7eea-45e3-a008-a218e8b9ad4d.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5a5385ad-7eea-45e3-a008-a218e8b9ad4d/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5a5385ad-7eea-45e3-a008-a218e8b9ad4d/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5a5385ad-7eea-45e3-a008-a218e8b9ad4d/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5a5385ad-7eea-45e3-a008-a218e8b9ad4d/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
+    <list default="true" id="cccb06e4-ae0d-410e-b1c1-9efa2b96427e" name="更改" comment="4/28员工后端修改-一部分">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/CoffeehutApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/CoffeehutApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/oneMenu/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/oneMenu/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/oneMenu/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/oneMenu/MenuService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/Controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/Controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/OrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/ScheduleHoliday.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/ScheduleHoliday.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/ScheduleHours.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/model/ScheduleHours.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/CoffeehutApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/CoffeehutApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderDetailDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderDetailDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderWithItemsDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderWithItemsDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/oneMenu/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/oneMenu/AuthService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/service/OrderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Item.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/oneMenu/MenuService.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/oneMenu/MenuService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,12 +35,12 @@
     &quot;assignee&quot;: &quot;IsWeiQi&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/c4002159/coffeehut-backend.git",
-    "accountId": "b0fde3b6-c0b0-4024-9035-cf17c9afb054"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/c4002159/coffeehut-backend.git&quot;,
+    &quot;accountId&quot;: &quot;b0fde3b6-c0b0-4024-9035-cf17c9afb054&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -110,6 +95,9 @@
       </set>
     </attachedChunks>
   </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="逻辑" />
+  </component>
   <component name="SvnConfiguration">
     <configuration>C:\Users\WeiQi\AppData\Roaming\Subversion</configuration>
   </component>
@@ -130,8 +118,35 @@
       <workItem from="1777194067058" duration="5064000" />
       <workItem from="1777217863019" duration="2198000" />
       <workItem from="1777220120780" duration="1062000" />
-      <workItem from="1777247149575" duration="15352000" />
+      <workItem from="1777247149575" duration="18454000" />
+      <workItem from="1777346813447" duration="12416000" />
+      <workItem from="1777424942485" duration="606000" />
     </task>
+    <task id="LOCAL-00001" summary="4/27员工端部分修改">
+      <option name="closed" value="true" />
+      <created>1777306686861</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1777306686861</updated>
+    </task>
+    <task id="LOCAL-00002" summary="4/27员工后端部分修改">
+      <option name="closed" value="true" />
+      <created>1777308822516</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1777308822516</updated>
+    </task>
+    <task id="LOCAL-00003" summary="4/28员工后端修改-一部分">
+      <option name="closed" value="true" />
+      <created>1777399085389</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1777399085389</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,5 +167,10 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+    <MESSAGE value="Fix null itemId in getActiveOrdersWithItems" />
+    <MESSAGE value="4/27员工端部分修改" />
+    <MESSAGE value="4/27员工后端部分修改" />
+    <MESSAGE value="4/28员工后端修改-一部分" />
+    <option name="LAST_COMMIT_MESSAGE" value="4/28员工后端修改-一部分" />
   </component>
 </project>

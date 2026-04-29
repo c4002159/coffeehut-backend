@@ -231,11 +231,12 @@ public class OrderService {
         return null;
     }
 
-    // Adds or updates a staff note on an order. -WeiqiWang
+    // Adds a staff note on the order. Writes to staffNotes, not notes. -WeiqiWang
+    // notes = customer-submitted at order time; staffNotes = added by staff afterwards.
     public Order addNote(Long id, String note) {
         Order order = orderRepository.findById(id).orElse(null);
         if (order != null) {
-            order.setNotes(note);
+            order.setStaffNotes(note);
             return orderRepository.save(order);
         }
         return null;

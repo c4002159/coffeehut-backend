@@ -17,9 +17,9 @@ public class ScheduleHoliday {
     private Long id;
 
     private String name;       // e.g. "Christmas"
-    private String startDate;  // ISO date string "2026-12-25"
-    private String endDate;    // ISO date string "2026-12-26" (may equal startDate)
+    private String startDate;  // ISO date string e.g. "2026-12-25"
+    private String endDate;    // ISO date string e.g. "2026-12-26" (may equal startDate)
     private Boolean isClosed;  // true = Closed All Day
-    private String openTime;   // e.g. "9:00 AM"  (null when isClosed = true)
-    private String closeTime;  // e.g. "3:00 PM"  (null when isClosed = true)
+    private String openTime;   // e.g. "09:00"  (null when isClosed = true)
+    private String closeTime;  // e.g. "17:00"  (null when isClosed = true)
 }

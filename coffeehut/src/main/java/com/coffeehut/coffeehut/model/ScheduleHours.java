@@ -16,7 +16,7 @@ public class ScheduleHours {
     private Long id; // 1 = Mon-Fri, 2 = Saturday, 3 = Sunday — fixed -WeiqiWang
 
     private String dayLabel;   // e.g. "Monday - Friday"
-    private String openTime;   // e.g. "9:00 AM"  (null when isClosed = true)
-    private String closeTime;  // e.g. "6:00 PM"  (null when isClosed = true)
+    private String openTime;   // e.g. "09:00"  (null when isClosed = true)
+    private String closeTime;  // e.g. "18:00"  (null when isClosed = true)
     private Boolean isClosed;  // true = Closed All Day
 }

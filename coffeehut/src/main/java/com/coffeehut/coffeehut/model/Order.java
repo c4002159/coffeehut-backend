@@ -48,5 +48,10 @@ public class Order {
     private String priority;    // low / medium / high
     private String type;        // Pickup / Delivery / Express
     private String allergies;
+
+    // Notes submitted by customer at time of ordering -WeiqiWang
     private String notes;
+
+    // Notes added by staff after order is placed (via Add Note in OrderDetail) -WeiqiWang
+    private String staffNotes;
 }
