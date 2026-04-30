@@ -64,6 +64,19 @@ public class LoyaltyController {
             return ResponseEntity.badRequest().body(error);
         }
     }
+    @PostMapping("/{id}/update-stamps")
+    public ResponseEntity<?> updateStamps(@PathVariable Long id, @RequestBody Map<String, Object> body) {
+        try {
+            Integer totalOrders = body.containsKey("totalOrders") ? ((Number) body.get("totalOrders")).intValue() : null;
+            Integer freeCups = body.containsKey("freeCups") ? ((Number) body.get("freeCups")).intValue() : null;
+            Member member = loyaltyService.updateStamps(id, totalOrders, freeCups);
+            return ResponseEntity.ok(buildMemberResponse(member, "Stamps updated"));
+        } catch (RuntimeException e) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
     private Map<String, Object> buildMemberResponse(Member member, String message) {
         Map<String, Object> result = new HashMap<>();
         result.put("message", message);
@@ -71,6 +84,7 @@ public class LoyaltyController {
         result.put("name", member.getName());
         result.put("email", member.getEmail());
         result.put("totalOrders", member.getTotalOrders());
+        result.put("freeCups", member.getFreeCups());
         return result;
     }
 }

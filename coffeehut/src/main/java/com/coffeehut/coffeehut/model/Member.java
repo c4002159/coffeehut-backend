@@ -15,4 +15,5 @@ public class Member {
     private String email;
     private String password;
     private Integer totalOrders = 0;
+    private Integer freeCups = 0;
 }

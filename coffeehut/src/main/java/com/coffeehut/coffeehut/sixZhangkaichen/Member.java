@@ -12,6 +12,7 @@ public class Member {
     private String email;
     private String password;
     private Integer totalOrders;
+    private Integer freeCups = 0;
     public Member() {
     }
     public Member(String name, String email, String password, Integer totalOrders) {
@@ -19,6 +20,7 @@ public class Member {
         this.email = email;
         this.password = password;
         this.totalOrders = totalOrders;
+        this.freeCups = 0;
     }
     public Long getId() {
         return id;
@@ -46,5 +48,11 @@ public class Member {
     }
     public void setTotalOrders(Integer totalOrders) {
         this.totalOrders = totalOrders;
+    }
+    public Integer getFreeCups() {
+        return freeCups == null ? 0 : freeCups;
+    }
+    public void setFreeCups(Integer freeCups) {
+        this.freeCups = freeCups;
     }
 }

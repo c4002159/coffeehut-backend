@@ -74,6 +74,12 @@ public class LoyaltyService {
         link.setCounted(false);
         memberOrderLinkRepository.save(link);
     }
+    public Member updateStamps(Long id, Integer totalOrders, Integer freeCups) {
+        Member member = getMemberById(id);
+        if (totalOrders != null) member.setTotalOrders(Math.max(0, totalOrders));
+        if (freeCups != null) member.setFreeCups(Math.max(0, freeCups));
+        return memberRepository.save(member);
+    }
     public void handleCollectedOrder(Long orderId) {
         Optional<MemberOrderLink> optionalLink = memberOrderLinkRepository.findByOrderId(orderId);
         if (optionalLink.isEmpty()) {
