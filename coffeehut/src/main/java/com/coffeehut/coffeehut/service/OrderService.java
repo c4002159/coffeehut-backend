@@ -16,33 +16,82 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Service layer containing business logic for order management.
+ * <p>
+ * Serves both the customer-facing reorder flow and the staff-side order
+ * dashboard. Provides methods for creating reorders, querying active and
+ * archived orders, updating order status with stage timestamps, cancelling
+ * orders, and adding staff notes. All persistence is delegated to
+ * {@link OrderRepository}, {@link OrderItemRepository}, and
+ * {@link ItemRepository}.
+ * </p>
+ */
 @Service
 public class OrderService {
 
+    /** Repository for {@link Order} CRUD and custom queries. */
     @Autowired
     private OrderRepository orderRepository;
 
+    /** Repository for {@link OrderItem} lookups by order ID. */
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    /** Repository used to resolve item names from item IDs. */
     @Autowired
     private ItemRepository itemRepository;
 
-    // --- Shared helpers (called by multiple roles) ---
+    // ── Shared helpers (called by multiple roles) ────────────────────────────
 
+    /**
+     * Retrieves a single order by its primary key.
+     *
+     * @param id the primary key of the {@link Order} to retrieve
+     * @return the matching {@link Order}, or {@code null} if no order
+     *         exists for the given {@code id}
+     */
     public Order getOrderById(Long id) {
         return orderRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Retrieves all orders placed by a given customer name.
+     *
+     * @param name the customer name to search for
+     * @return a list of {@link Order} objects matching the customer name;
+     *         never {@code null} but may be empty
+     */
     public List<Order> getOrdersByCustomer(String name) {
         return orderRepository.findByCustomerName(name);
     }
 
+    /**
+     * Retrieves all order items belonging to a given order.
+     *
+     * @param orderId the primary key of the parent order
+     * @return a list of {@link OrderItem} objects for the given order;
+     *         never {@code null} but may be empty
+     */
     public List<OrderItem> getOrderItems(Long orderId) {
         return orderItemRepository.findByOrderId(orderId);
     }
 
-    // Creates a new order by copying items from a previous order. -WeiqiWang
+    /**
+     * Creates a new order by copying items from a previous order.
+     * <p>
+     * Sets the new order status to {@code "pending"} and generates a
+     * unique order number in the format {@code A-XXXXYYY} where
+     * {@code XXXX} is the last four digits of the current epoch millisecond
+     * and {@code YYY} is a three-digit random suffix. If the request does
+     * not specify a pickup time, the service defaults to 10 minutes from
+     * the current time.
+     * </p>
+     *
+     * @param request the reorder payload containing customer details,
+     *                optional pickup time, total price, and item list
+     * @return the persisted {@link Order} representing the new reorder
+     */
     public Order createReorder(ReorderRequest request) {
         Order newOrder = new Order();
         newOrder.setCustomerName(request.getCustomerName());
@@ -79,9 +128,20 @@ public class OrderService {
         return saved;
     }
 
-    // --- Staff-side methods ---
+    // ── Staff-side methods ───────────────────────────────────────────────────
 
-    // Returns all non-archived orders with their item lists. -WeiqiWang
+    /**
+     * Returns all non-archived orders together with their item summaries.
+     * <p>
+     * For each active order, the item list is fetched from
+     * {@link OrderItemRepository} and each item's name is resolved from
+     * {@link ItemRepository}. A {@code null} {@code itemId} is handled
+     * gracefully by defaulting the name to {@code "Unknown"}.
+     * </p>
+     *
+     * @return a list of {@link OrderWithItemsDTO} objects representing all
+     *         active (non-archived) orders; never {@code null} but may be empty
+     */
     public List<OrderWithItemsDTO> getActiveOrdersWithItems() {
         List<Order> activeOrders = orderRepository.findByIsArchivedFalse();
         return activeOrders.stream().map(order -> {
@@ -104,9 +164,29 @@ public class OrderService {
         }).collect(Collectors.toList());
     }
 
-    // Updates order status and writes stage timestamps. -WeiqiWang
-    // Also handles restore: when status is "pending" or "in_progress", clears
-    // isArchived and completedAt so the order moves back to the active list.
+    /**
+     * Updates an order's status and writes the appropriate stage timestamp.
+     * <p>
+     * Timestamp behaviour per status transition:
+     * <ul>
+     *   <li>{@code in_progress} — sets {@code acceptedAt}; also clears
+     *       {@code isArchived}, {@code completedAt}, and {@code cancelledFrom}
+     *       for the restore path.</li>
+     *   <li>{@code pending} — clears {@code isArchived}, {@code completedAt},
+     *       and {@code cancelledFrom} for the restore path.</li>
+     *   <li>{@code ready} — sets {@code readyAt}.</li>
+     *   <li>{@code collected} — sets {@code isArchived = true} and
+     *       {@code completedAt}.</li>
+     *   <li>{@code cancelled} — sets {@code isArchived = true} and
+     *       {@code completedAt}.</li>
+     * </ul>
+     * </p>
+     *
+     * @param id     the primary key of the order to update
+     * @param status the new status value to apply
+     * @return the updated and persisted {@link Order}, or {@code null} if
+     *         no order exists for the given {@code id}
+     */
     public Order updateOrderStatus(Long id, String status) {
         Order order = orderRepository.findById(id).orElse(null);
         if (order == null) return null;
@@ -146,7 +226,19 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    // Returns full detail of a single order with resolved item names. -WeiqiWang
+    /**
+     * Returns the full detail of a single order with resolved item names.
+     * <p>
+     * Fetches the order and its associated {@link OrderItem} list, then
+     * resolves each item's display name from {@link ItemRepository}.
+     * A {@code null} {@code itemId} is handled gracefully by defaulting
+     * the name to {@code "Unknown"}.
+     * </p>
+     *
+     * @param id the primary key of the order to retrieve
+     * @return an {@link OrderDetailDTO} containing the order and its items,
+     *         or {@code null} if no order exists for the given {@code id}
+     */
     public OrderDetailDTO getOrderDetail(Long id) {
         Order order = orderRepository.findById(id).orElse(null);
         if (order == null) return null;
@@ -174,7 +266,21 @@ public class OrderService {
         return dto;
     }
 
-    // Returns archived orders grouped by TODAY / YESTERDAY / LAST_7_DAYS, newest first. -WeiqiWang
+    /**
+     * Returns all archived orders grouped by completion time into three
+     * buckets: {@code TODAY}, {@code YESTERDAY}, and {@code LAST_7_DAYS}.
+     * <p>
+     * Grouping is based on {@code completedAt}, not {@code createdAt},
+     * so an order placed yesterday but collected today appears in
+     * {@code TODAY}. Orders with a {@code null} {@code completedAt} are
+     * excluded from all groups. Within each group, orders are sorted
+     * newest-first by {@code completedAt}.
+     * </p>
+     *
+     * @return a {@link LinkedHashMap} with keys {@code "TODAY"},
+     *         {@code "YESTERDAY"}, and {@code "LAST_7_DAYS"}, each mapping
+     *         to a (possibly empty) list of archived {@link Order} objects
+     */
     public Map<String, List<Order>> getArchivedOrdersGrouped() {
         List<Order> archived = orderRepository.findByIsArchivedTrue();
         LocalDateTime now            = LocalDateTime.now();
@@ -202,26 +308,53 @@ public class OrderService {
         return result;
     }
 
-    // Searches archived orders by order number or customer name, newest first. -WeiqiWang
+    /**
+     * Searches archived orders by order number or customer name.
+     * <p>
+     * The search is case-insensitive and uses substring matching against
+     * both {@code orderNumber} and {@code customerName}. Results are
+     * sorted newest-first by {@code completedAt}; orders with a
+     * {@code null} {@code completedAt} are placed at the end.
+     * </p>
+     *
+     * @param keyword the search term to match against order number or
+     *                customer name; an empty string matches all orders
+     * @return a list of matching archived {@link Order} objects sorted
+     *         by {@code completedAt} descending; never {@code null} but
+     *         may be empty
+     */
     public List<Order> searchArchivedOrders(String keyword) {
         return orderRepository.findByIsArchivedTrue().stream()
                 .filter(o -> o.getOrderNumber() != null && o.getCustomerName() != null
                         && (o.getOrderNumber().toLowerCase().contains(keyword.toLowerCase())
-                            || o.getCustomerName().toLowerCase().contains(keyword.toLowerCase())))
+                        || o.getCustomerName().toLowerCase().contains(keyword.toLowerCase())))
                 .sorted(Comparator.comparing(
                         o -> o.getCompletedAt() != null ? o.getCompletedAt() : LocalDateTime.MIN,
                         Comparator.reverseOrder()))
                 .collect(Collectors.toList());
     }
 
-    // Cancels an order. Only allowed for pending / in_progress. -WeiqiWang
-    // Records cancelledFrom so the staff portal can offer a Restore option.
-    // Returns null if cancellation is not permitted for the current status.
+    /**
+     * Cancels an order. Only allowed for {@code pending} and
+     * {@code in_progress} statuses.
+     * <p>
+     * Records the original status in {@code cancelledFrom} so the staff
+     * portal can offer a Restore option. Sets {@code isArchived = true}
+     * and writes {@code completedAt} to the current time. Returns
+     * {@code null} without saving if the order does not exist or its
+     * current status is not cancellable.
+     * </p>
+     *
+     * @param id the primary key of the order to cancel
+     * @return the cancelled and persisted {@link Order}, or {@code null}
+     *         if the order does not exist or cannot be cancelled in its
+     *         current status
+     */
     public Order cancelOrder(Long id) {
         Order order = orderRepository.findById(id).orElse(null);
         if (order != null
                 && ("pending".equals(order.getStatus())
-                    || "in_progress".equals(order.getStatus()))) {
+                || "in_progress".equals(order.getStatus()))) {
             order.setCancelledFrom(order.getStatus()); // preserve original status for Restore -WeiqiWang
             order.setStatus("cancelled");
             order.setIsArchived(true);
@@ -231,8 +364,20 @@ public class OrderService {
         return null;
     }
 
-    // Adds a staff note on the order. Writes to staffNotes, not notes. -WeiqiWang
-    // notes = customer-submitted at order time; staffNotes = added by staff afterwards.
+    /**
+     * Adds or replaces the staff note on an order.
+     * <p>
+     * Writes to the {@code staffNotes} field, which is separate from
+     * the {@code notes} field submitted by the customer at order time.
+     * The two fields must never overwrite each other.
+     * </p>
+     *
+     * @param id   the primary key of the order to annotate
+     * @param note the staff note text to store; may be an empty string
+     *             to clear the existing note
+     * @return the updated and persisted {@link Order}, or {@code null}
+     *         if no order exists for the given {@code id}
+     */
     public Order addNote(Long id, String note) {
         Order order = orderRepository.findById(id).orElse(null);
         if (order != null) {
