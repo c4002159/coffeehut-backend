@@ -65,7 +65,7 @@ class AuthServiceTest {
         ResponseEntity<?> response = authService.login("admin@coffeehut.com", "secret123");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        Map<?, ?> body = (Map<?, ?>) response.getBody();
+        Map<String, Object> body = (Map<String, Object>) response.getBody();
         assertThat(body).containsKey("memberId");
         assertThat(body).containsKey("name");
         assertThat(body.get("name")).isEqualTo("Admin");
@@ -91,7 +91,7 @@ class AuthServiceTest {
         ResponseEntity<?> response = authService.login("admin@coffeehut.com", "wrongpassword");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
-        Map<?, ?> body = (Map<?, ?>) response.getBody();
+        Map<String, Object> body = (Map<String, Object>) response.getBody();
         assertThat(body).containsKey("error");
     }
 
@@ -114,7 +114,7 @@ class AuthServiceTest {
         ResponseEntity<?> response = authService.login("unknown@coffeehut.com", "anypassword");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
-        Map<?, ?> body = (Map<?, ?>) response.getBody();
+        Map<String, Object> body = (Map<String, Object>) response.getBody();
         assertThat(body).containsKey("error");
         assertThat(body.get("error")).isEqualTo("Invalid email or password");
     }
@@ -139,7 +139,7 @@ class AuthServiceTest {
 
         ResponseEntity<?> response = authService.login("bad@coffeehut.com", "pass");
 
-        Map<?, ?> body = (Map<?, ?>) response.getBody();
+        Map<String, Object> body = (Map<String, Object>) response.getBody();
         assertThat(body).isNotNull();
         assertThat(body.get("error").toString()).isNotBlank();
     }
