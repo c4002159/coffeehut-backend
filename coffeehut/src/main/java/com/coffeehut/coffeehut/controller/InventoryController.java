@@ -16,6 +16,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * REST controller for staff inventory management.
+ * <p>
+ * Exposes read and update endpoints for menu item stock levels and
+ * availability flags. All endpoints are under {@code /api/staff/inventory/}
+ * and are completely isolated from the customer-facing {@code /api/menu} endpoint.
+ * </p>
+ */
 @RestController
 @RequestMapping("/api/staff/inventory")
 @CrossOrigin(origins = "*")
@@ -24,6 +32,15 @@ public class InventoryController {
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * Returns all menu items including offline and out-of-stock ones.
+     * <p>
+     * Staff need visibility of all items regardless of availability;
+     * the customer menu ({@code /api/menu}) only returns available, in-stock items.
+     * </p>
+     *
+     * @return list of all {@link Item} records
+     */
     // GET /api/staff/inventory — returns all items (including offline ones). -WeiqiWang
     // Staff need to see everything; customer menu only sees available + in-stock items.
     @GetMapping
@@ -31,6 +48,18 @@ public class InventoryController {
         return itemRepository.findAll();
     }
 
+    /**
+     * Updates stock level and/or availability for a single menu item.
+     * <p>
+     * Accepts any combination of {@code "stock"} (integer) and
+     * {@code "isAvailable"} (boolean) in the request body.
+     * Stock values are clamped to a minimum of 0.
+     * </p>
+     *
+     * @param id      the item id
+     * @param updates map containing {@code "stock"} and/or {@code "isAvailable"}
+     * @return the updated {@link Item}, or 404 if not found
+     */
     // PATCH /api/staff/inventory/{id} — update stock and/or availability. -WeiqiWang
     // Accepts any combination of: { "stock": 10, "isAvailable": true }
     @PatchMapping("/{id}")

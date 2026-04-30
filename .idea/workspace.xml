@@ -5,44 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cccb06e4-ae0d-410e-b1c1-9efa2b96427e" name="更改" comment="4/29库存细节修改部分">
-      <change afterPath="$PROJECT_DIR$/coffeehut/src/test/java/com/coffeehut/coffeehut/payment/PaymentServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/coffeehut/src/test/java/com/coffeehut/coffeehut/service/OrderServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/Service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/Service/PaymentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/dto/HorsePayRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/dto/HorsePayRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/dto/HorsePayResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/dto/HorsePayResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/dto/PaymentPayRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/dto/PaymentPayRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/dto/PaymentRefundRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/payment/dto/PaymentRefundRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/ItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/ItemRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/MemberRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/OrderItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/OrderItemRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/OrderRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/ScheduleHolidayRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/ScheduleHolidayRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/ScheduleHoursRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/ScheduleHoursRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/StaffAccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/StaffAccountRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/StoreSettingsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/repository/StoreSettingsRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/service/ReorderRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/service/ReorderRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/LoyaltyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/LoyaltyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/LoyaltyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/LoyaltyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/MemberOrderLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/MemberOrderLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/MemberOrderLinkRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/MemberOrderLinkRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/sixZhangkaichen/MemberRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/twoZhouzheng/ReorderRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/twoZhouzheng/ReorderRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/CoffeehutApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/CoffeehutApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/NoteRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/NoteRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderDetailDTO$OrderItemWithName.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderDetailDTO$OrderItemWithName.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderDetailDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderDetailDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderWithItemsDTO$OrderItemSummary.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderWithItemsDTO$OrderItemSummary.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderWithItemsDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/dto/OrderWithItemsDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/fiveTrain/TrainService.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/fiveTrain/TrainService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Item.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Member.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Member.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/OrderItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/model/OrderItem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/oneMenu/MenuService.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/oneMenu/MenuService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/target/classes/com/coffeehut/coffeehut/service/OrderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/InventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/InventoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/StaffOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/StaffOrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/StoreSettingsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/controller/StoreSettingsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/dto/NoteRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/dto/NoteRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/dto/OrderDetailDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/dto/OrderDetailDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/dto/OrderWithItemsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/coffeehut/src/main/java/com/coffeehut/coffeehut/dto/OrderWithItemsDTO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,12 +35,12 @@
     &quot;assignee&quot;: &quot;IsWeiQi&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/c4002159/coffeehut-backend.git",
-    "accountId": "dbd1e95a-7357-4b67-bbb1-3cdf9276e564"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/c4002159/coffeehut-backend.git&quot;,
+    &quot;accountId&quot;: &quot;dbd1e95a-7357-4b67-bbb1-3cdf9276e564&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -83,44 +53,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JUnit.OrderServiceTest.executor": "Run",
-    "JUnit.PaymentServiceTest.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "Spring Boot.CoffeehutApplication.executor": "Run",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/liulanqi/8019/coffeehut-backend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "vcs.Subversion.SSH",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.OrderServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PaymentServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Spring Boot.CoffeehutApplication.executor&quot;: &quot;Run&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/liulanqi/8019/coffeehut-backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Subversion.SSH&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql_aurora"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql_aurora&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.coffeehut.coffeehut.service" />
@@ -161,7 +131,7 @@
       <workItem from="1777424942485" duration="1282000" />
       <workItem from="1777470022040" duration="3376000" />
       <workItem from="1777474921926" duration="592000" />
-      <workItem from="1777476099010" duration="6872000" />
+      <workItem from="1777476099010" duration="10676000" />
     </task>
     <task id="LOCAL-00001" summary="4/27员工端部分修改">
       <option name="closed" value="true" />
@@ -203,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777486623667</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="4/29订单文字标识细节修改">
+      <option name="closed" value="true" />
+      <created>1777493399638</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1777493399638</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,6 +208,7 @@
     <MESSAGE value="4/28员工后端修改-一部分" />
     <MESSAGE value="4/29修改部分" />
     <MESSAGE value="4/29库存细节修改部分" />
-    <option name="LAST_COMMIT_MESSAGE" value="4/29库存细节修改部分" />
+    <MESSAGE value="4/29订单文字标识细节修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="4/29订单文字标识细节修改" />
   </component>
 </project>

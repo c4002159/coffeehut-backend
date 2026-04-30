@@ -33,6 +33,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * REST controller for store settings and live open/closed status.
+ * <p>
+ * Exposes public and staff-facing endpoints for reading store configuration,
+ * managing Order Automation thresholds, and controlling the store's
+ * live open/closed state via manual overrides, holiday exceptions, and
+ * weekly opening hours. Priority order for status resolution:
+ * manual close > manual force-open > holiday exception > weekly schedule.
+ * </p>
+ */
 @RestController
 @CrossOrigin(origins = "*")
 public class StoreSettingsController {
@@ -43,6 +53,11 @@ public class StoreSettingsController {
 
     // ── Order Automation (staff only) ───────────────────────────────────────
 
+    /**
+     * Returns the current store settings (Order Automation config).
+     *
+     * @return {@link StoreSettings} record with id=1, or 404 if not yet initialised
+     */
     @GetMapping("/api/staff/settings")
     public ResponseEntity<StoreSettings> getSettings() {
         return storeSettingsRepository.findById(1L)
@@ -50,6 +65,16 @@ public class StoreSettingsController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * Saves Order Automation config without overwriting the temporary-close flag.
+     * <p>
+     * The {@code isTemporarilyClosed} field is preserved from the existing record
+     * so that saving automation settings does not accidentally reopen the store.
+     * </p>
+     *
+     * @param incoming updated {@link StoreSettings} payload from the staff portal
+     * @return the saved {@link StoreSettings} record
+     */
     @PostMapping("/api/staff/settings")
     public ResponseEntity<StoreSettings> saveSettings(@RequestBody StoreSettings incoming) {
         storeSettingsRepository.findById(1L).ifPresent(existing ->
@@ -60,6 +85,21 @@ public class StoreSettingsController {
 
     // ── Store open/closed status ────────────────────────────────────────────
 
+    /**
+     * Returns the current live open/closed status of the store.
+     * <p>
+     * Evaluates three factors in priority order:
+     * <ol>
+     *   <li>Manual temporary close ({@code isTemporarilyClosed=true}) — highest priority</li>
+     *   <li>Manual force-open ({@code manualForceOpen=true}) — overrides holiday and weekly schedule</li>
+     *   <li>Holiday exceptions — always higher priority than weekly schedule</li>
+     *   <li>Weekly schedule — lowest priority, used as the default</li>
+     * </ol>
+     * </p>
+     *
+     * @return map containing {@code isOpen}, {@code reason}, {@code todayHoursLabel},
+     *         {@code openTime}, {@code closeTime}, and {@code isClosedToday}
+     */
     @GetMapping("/api/store/status")
     public ResponseEntity<Map<String, Object>> getStoreStatus() {
         LocalDate today = LocalDate.now();
@@ -121,6 +161,17 @@ public class StoreSettingsController {
         return ResponseEntity.ok(buildStatus(true, "no_schedule", "Open Today", null, null, false));
     }
 
+    /**
+     * Sets the store's manual open/closed override from the staff portal.
+     * <p>
+     * When {@code isTemporarilyClosed=true}, the store is immediately closed for customers
+     * regardless of holiday or weekly schedule. When {@code false} (Reopen Store),
+     * {@code manualForceOpen} is set to {@code true} to override any schedule-based closure.
+     * </p>
+     *
+     * @param body map containing {@code isTemporarilyClosed} boolean
+     * @return map containing {@code isOpen} reflecting the new state
+     */
     @PostMapping("/api/staff/store/status")
     public ResponseEntity<Map<String, Boolean>> setStoreStatus(
             @RequestBody Map<String, Boolean> body) {
@@ -143,8 +194,18 @@ public class StoreSettingsController {
 
     // ── Helpers ─────────────────────────────────────────────────────────────
 
-    // Parses "HH:mm" (24-hr, new format) or legacy "h:mm AM/PM" (12-hr).
-    // Checks if `now` falls within [open, close). -WeiqiWang
+    /**
+     * Checks whether {@code now} falls within the [openStr, closeStr) range.
+     * <p>
+     * Accepts both {@code "HH:mm"} (24-hr, new format) and legacy {@code "h:mm AM/PM"} (12-hr).
+     * Returns {@code false} if either time string is {@code null} or unparseable.
+     * </p>
+     *
+     * @param openStr  opening time string, e.g. {@code "09:00"} or {@code "9:00 AM"}
+     * @param closeStr closing time string, e.g. {@code "18:00"} or {@code "6:00 PM"}
+     * @param now      current local time to check against the range
+     * @return {@code true} if {@code now} is within [open, close), {@code false} otherwise
+     */
     private boolean isWithinTimeRange(String openStr, String closeStr, LocalTime now) {
         if (openStr == null || closeStr == null) return false;
         try {
@@ -157,7 +218,12 @@ public class StoreSettingsController {
         }
     }
 
-    // Parses both "HH:mm" (24-hr) and legacy "h:mm AM/PM" (12-hr). -WeiqiWang
+    /**
+     * Parses a time string in either 24-hr ({@code "H:mm"}) or legacy 12-hr ({@code "h:mm a"}) format.
+     *
+     * @param str the time string to parse
+     * @return parsed {@link LocalTime}, or {@code null} if unparseable or blank
+     */
     private LocalTime parseTimeFlexible(String str) {
         if (str == null || str.isBlank()) return null;
         try {
@@ -172,6 +238,16 @@ public class StoreSettingsController {
         }
     }
 
+    /**
+     * Returns {@code true} if the given {@code label} matches the provided {@link DayOfWeek}.
+     * <p>
+     * Supports three label patterns: {@code "Monday - Friday"}, {@code "Saturday"}, {@code "Sunday"}.
+     * </p>
+     *
+     * @param label day label stored in {@code schedule_hours}, e.g. {@code "Monday - Friday"}
+     * @param dow   current day of week
+     * @return {@code true} if the label covers the given day
+     */
     private boolean matchesDayLabel(String label, DayOfWeek dow) {
         if (label == null) return false;
         String l = label.toLowerCase();
@@ -183,6 +259,17 @@ public class StoreSettingsController {
         return false;
     }
 
+    /**
+     * Builds the standard store status response map.
+     *
+     * @param isOpen          whether the store is currently open
+     * @param reason          machine-readable reason code, e.g. {@code "temporarily_closed"}
+     * @param todayHoursLabel human-readable label for today's hours
+     * @param openTime        opening time string, or {@code null} if not applicable
+     * @param closeTime       closing time string, or {@code null} if not applicable
+     * @param isClosedToday   whether the store is closed for the entire day
+     * @return ordered map suitable for JSON serialisation
+     */
     private Map<String, Object> buildStatus(boolean isOpen, String reason, String todayHoursLabel,
                                             String openTime, String closeTime, boolean isClosedToday) {
         Map<String, Object> body = new LinkedHashMap<>();
@@ -195,16 +282,36 @@ public class StoreSettingsController {
         return body;
     }
 
+    /**
+     * Formats a human-readable opening hours label.
+     *
+     * @param openTime  opening time string
+     * @param closeTime closing time string
+     * @return label such as {@code "Open Today 09:00 - 18:00"}, or {@code "Open Today"} if times are null
+     */
     private String formatOpenLabel(String openTime, String closeTime) {
         if (openTime == null || closeTime == null) return "Open Today";
         return "Open Today " + openTime + " - " + closeTime;
     }
 
+    /**
+     * Formats the suffix appended to "Closed Today" messages.
+     *
+     * @param holidayName name of the holiday exception, may be blank
+     * @param dayName     current day name as fallback
+     * @return suffix such as {@code " (Christmas)"} or {@code " (Wednesday)"}
+     */
     private String formatHolidaySuffix(String holidayName, String dayName) {
         if (holidayName == null || holidayName.isBlank()) return " (" + dayName + ")";
         return " (" + holidayName + ")";
     }
 
+    /**
+     * Converts a {@link DayOfWeek} enum value to its English name.
+     *
+     * @param dow day of week enum
+     * @return English day name, e.g. {@code "Monday"}
+     */
     private String toDayName(DayOfWeek dow) {
         return switch (dow) {
             case MONDAY -> "Monday";
